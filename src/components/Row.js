@@ -1,7 +1,8 @@
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "../config/axios";
+import "../styles/Row.css";
 
-const Row = ({ title, fetchUrl }) => {
+const Row = ({ title, fetchUrl, isLarger }) => {
   const baseURLImg = "https://image.tmdb.org/t/p/original/";
   const [movies, setMovies] = useState([]);
 
@@ -15,14 +16,21 @@ const Row = ({ title, fetchUrl }) => {
   }, [fetchUrl]);
 
   return (
-    <Fragment>
+    <div className="row">
       <h2>{title}</h2>
-      <div className="posters">
+      <div className="row__posters">
         {movies.map((movie) => (
-          <img src={`${baseURLImg}${movie.poster_path}`} alt={movie.name} />
+          <img
+            className={`row__poster ${isLarger && "row__poster-large"}`}
+            key={movie.id}
+            src={`${baseURLImg}${
+              isLarger ? movie.poster_path : movie.backdrop_path
+            }`}
+            alt={movie.name}
+          />
         ))}
       </div>
-    </Fragment>
+    </div>
   );
 };
 
